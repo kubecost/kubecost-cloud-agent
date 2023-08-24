@@ -10,5 +10,5 @@ annotations:
 dependencies:
   - condition: global.prometheus.enabled
     name: prometheus
-    repository: file://./charts/prometheus
+    repository: file://./dependencies/prometheus
     version: "~11.0.2"
