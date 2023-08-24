@@ -1,0 +1,14 @@
+apiVersion: v2
+appVersion: "1.0.0"
+description: A Helm chart that sets up the Kubecost Cloud agent with Prometheus to monitor kube costs.
+name: kubecost-cloud-agent
+version: "1.0.0"
+annotations:
+  "artifacthub.io/links": |
+    - name: Homepage
+      url: https://www.kubecost.com
+dependencies:
+  - condition: global.prometheus.enabled
+    name: prometheus
+    repository: file://./charts/prometheus
+    version: "~11.0.2"
