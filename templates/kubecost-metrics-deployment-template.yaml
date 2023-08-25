@@ -71,6 +71,11 @@ spec:
             secretName: {{ .Values.agentKeySecretName }}
           {{- end }}
         {{- end }}
+        {{- if .Values.cloudAgent }}
+        - name: cloud-agent-public-key-secret
+          secret:
+            secretName: {{ .Values.cloudAgentTLSCertName }}
+        {{- end }}
         {{- if .Values.kubecostProductConfigs }}
         {{- if .Values.kubecostProductConfigs.gcpSecretName }}
         - name: gcp-key-secret
@@ -177,6 +182,10 @@ spec:
           volumeMounts:
             - name: persistent-configs
               mountPath: /var/configs
+            {{- if .Values.cloudAgent }}
+            - name: cloud-agent-public-key-secret
+              mountPath: /var/configs/cloud-cert
+            {{- end }}
             {{- if .Values.agent }}
             - name: config-store
               mountPath: /var/secrets

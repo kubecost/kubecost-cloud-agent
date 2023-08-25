@@ -14,7 +14,7 @@ cloudAgentKey: ""
 
 # Cloud Agent securely sends data using one-way TLS
 cloudAgentTLSCertName: "agent-tls-public-key"
-cloudAgentTLSFileName: "files/prod-cloud-cert.pem"
+cloudAgentTLSFileName: "files/stage-cloud-cert.pem"
 
 # No Grafana configuration is required.
 grafana:
