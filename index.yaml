@@ -6,7 +6,7 @@ entries:
         - name: Homepage
           url: https://www.kubecost.com
     apiVersion: v2
-    appVersion: 1.0.0
+    appVersion: 0.1.0
     created: "2023-08-24T15:14:48.217592-07:00"
     dependencies:
     - condition: global.prometheus.enabled
@@ -18,6 +18,6 @@ entries:
     digest: cd62ae34e5050963d0b6414fd1aedd0a5846b5437b771b7cf6389f63f6408856
     name: kubecost-cloud-agent
     urls:
-    - tarballs/kubecost-cloud-agent-1.0.0.tgz
-    version: 1.0.0
+    - tarballs/kubecost-cloud-agent-0.1.0.tgz
+    version: 0.1.0
 generated: "2023-08-24T15:14:48.210151-07:00"
