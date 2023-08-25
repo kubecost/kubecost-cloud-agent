@@ -56,3 +56,11 @@ prometheus:
         - {{ .Release.Name }}-cloud-agent
         type: 'A'
         port: 9005
+    - job_name: kubecost-networking
+      kubernetes_sd_configs:
+        - role: pod
+      relabel_configs:
+      # Scrape only the the targets matching the following metadata
+        - source_labels: [__meta_kubernetes_pod_label_app]
+          action: keep
+          regex:  {{ template "cost-analyzer.networkCostsName" . }}
