@@ -71,7 +71,7 @@ spec:
             secretName: {{ .Values.agentKeySecretName }}
           {{- end }}
         {{- end }}
-         {{- if .Values.cloudAgent }}
+        {{- if .Values.cloudAgent }}
         - name: cloud-agent-public-key-secret
           secret:
             secretName: {{ .Values.cloudAgentTLSCertName }}
