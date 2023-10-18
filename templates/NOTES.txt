@@ -8,7 +8,7 @@
 {{- $EBSCSINotExists := (empty (lookup "apps/v1" "Deployment" "kube-system" "ebs-csi-controller")) }}
 
 {{- $servicePort := .Values.service.port | default 9090 -}}
-Kubecost has been successfully installed.
+The Kubecost Cloud Agent has been successfully installed.
 
 {{ if (and $isEKS $isGT22) -}}
 
