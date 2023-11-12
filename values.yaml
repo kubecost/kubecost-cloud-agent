@@ -842,9 +842,7 @@ networkCosts:
   podMonitor:
     enabled: false
     additionalLabels: {}
-  additionalLabels:
-    app.kubernetes.io/instance: kubecost
-    app.kubernetes.io/name: network-costs
+  additionalLabels: {}
   nodeSelector: {}
   annotations: {}
   healthCheckProbes: {}
