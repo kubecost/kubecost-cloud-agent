@@ -1,6 +1,0 @@
-dependencies:
-- name: prometheus
-  repository: file://./dependencies/prometheus
-  version: 11.0.2
-digest: sha256:69019503907046f22947e9d8b5f1dac63e2fbf1a022d32fd3fcadbe8e593ec90
-generated: "2023-08-25T10:38:53.890449-07:00"
