@@ -14,7 +14,7 @@ global:
     # runAsGroup: 65534
     # runAsUser: 65534
 
-# Sets the image version for the Kubecost agent..
+# Sets the image version for the Kubecost agent.
 imageVersion: lunar-sandwich.v0.1.2
 
 # Sets the destination where the Kubecost agent connects.
