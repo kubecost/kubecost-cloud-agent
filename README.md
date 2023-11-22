@@ -13,7 +13,7 @@ cloudAgentClusterId: mycloudclustername
 
 ## Installation on OpenShift
 
-OpenShift does not allow setting of certain securityContext fields. To deploy the agent on OpenShift, the the following values:
+OpenShift does not allow setting of certain securityContext fields. To deploy the agent on OpenShift, use the following values:
 
 ```yaml
 global:
