@@ -1,3 +1,23 @@
+# Kubecost running as an Agent is designed for external hosting. The current setup deploys a
+# kubecost-agent pod and prometheus server. 
+
+# Sets the image version for the Kubecost agent.
+imageVersion: lunar-sandwich.v0.1.2
+
+# Sets the destination where the Kubecost agent connects.
+cloudReportingServer: collector.app.kubecost.com:31357
+
+# Cloud Agent enables specific features designed to enhance the metrics exporter deployment
+# with enhancements designed for Kubecost Cloud 
+cloudAgent: true 
+cloudAgentKey: ""
+cloudAgentClusterId: my-cluster
+
+# Cloud Agent securely sends data using one-way TLS
+cloudAgentTLSCertName: "agent-tls-public-key"
+cloudAgentTLSFileName: "files/prod-cloud-cert.pem"
+
+
 global:
   # zone: cluster.local (use only if your DNS server doesn't live in the same zone as kubecost)
   prometheus:
@@ -16,10 +36,10 @@ global:
     # queryOffset: 3h # The offset to apply to all thanos queries in order to achieve synchronization on all cluster block stores
 
   grafana:
-    enabled: true # If false, Grafana will not be installed
+    enabled: false # If false, Grafana will not be installed
     domainName: cost-analyzer-grafana.default.svc #example grafana domain Ignored if enabled: true
     scheme: "http" # http or https, for the domain name above.
-    proxy: true # If true, the kubecost frontend will route to your grafana through its service endpoint
+    proxy: false # If true, the kubecost frontend will route to your grafana through its service endpoint
 #    fqdn: cost-analyzer-grafana.default.svc
 
   # Enable only when you are using GCP Marketplace ENT listing. Learn more at https://console.cloud.google.com/marketplace/product/kubecost-public/kubecost-ent
@@ -219,13 +239,15 @@ global:
     # iam.amazonaws.com/role: role-arn
   additionalLabels: {}
 
+  # When using OpenShift, remove or comment out the fields
+  # `fsGroup`, `runAsGroup`, and `runAsUser` in the `securityContext` section below.
   securityContext:
     runAsNonRoot: true
     seccompProfile:
       type: RuntimeDefault
-    # fsGroup: 65534
-    # runAsGroup: 65534
-    # runAsUser: 65534
+    fsGroup: 65534
+    runAsGroup: 65534
+    runAsUser: 65534
   containerSecurityContext:
     allowPrivilegeEscalation: false
     privileged: false
@@ -370,7 +392,9 @@ kubecostMetrics:
   # from the cost-model. If the deployment is not enabled, the metrics will continue to be emitted from
   # the cost-model.
   exporter:
-    enabled: false
+    enabled: true
+    exportClusterInfo: false
+    exportClusterCache: false
     port: 9005
     # Adds the default Prometheus scrape annotations to the metrics exporter service.
     # Set to false and use service.annotations (below) to set custom scrape annotations.
@@ -613,7 +637,7 @@ prometheus:
   podSecurityPolicy:
     enabled: false
   extraScrapeConfigs: |
-    - job_name: kubecost
+    - job_name: kubecost-cloud-agent
       honor_labels: true
       scrape_interval: 1m
       scrape_timeout: 60s
@@ -621,9 +645,9 @@ prometheus:
       scheme: http
       dns_sd_configs:
       - names:
-        - {{ template "cost-analyzer.serviceName" . }}
+        - {{ .Release.Name }}-cloud-agent
         type: 'A'
-        port: 9003
+        port: 9005
     - job_name: kubecost-networking
       kubernetes_sd_configs:
         - role: pod
@@ -669,12 +693,13 @@ prometheus:
       enabled: true
   # node-export must be disabled if there is an existing daemonset: https://guide.kubecost.com/hc/en-us/articles/4407601830679-Troubleshoot-Install#a-name-node-exporter-a-issue-failedscheduling-kubecost-prometheus-node-exporter
   nodeExporter:
-    enabled: true
+    enabled: false
   # kubecost emits pre-2.0 KSM metrics, KSM is enabled by default here for backwards compatibility, but can be disabled to save resources without concern to kubecost metrics
   kubeStateMetrics:
     enabled: true
   kube-state-metrics:
-    disabled: false
+    disabled: true
+    enabled: false
   pushgateway:
     enabled: false
     persistentVolume:
@@ -984,7 +1009,7 @@ grafana:
   #           timeInterval: 1m
   sidecar:
     dashboards:
-      enabled: true
+      enabled: false
       # label that the configmaps with dashboards are marked with
       label: grafana_dashboard
       # set sidecar ERROR_THROTTLE_SLEEP env var from default 5s to 0s -> fixes https://github.com/kubecost/cost-analyzer-helm-chart/issues/877
@@ -994,6 +1019,7 @@ grafana:
       # dataSourceFilename: foo.yml # If you need to change the name of the datasource file
       enabled: false
       error_throttle_sleep: 0
+      defaultDatasourceEnabled: false
 #  For grafana to be accessible, add the path to root_url. For example, if you run kubecost at www.foo.com:9090/kubecost
 #  set root_url to "%(protocol)s://%(domain)s:%(http_port)s/kubecost/grafana". No change is necessary here if kubecost runs at a root URL
   grafana.ini:
