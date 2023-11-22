@@ -5,12 +5,26 @@ global:
     enabled: false 
   grafana:
     enabled: false 
-    proxy: false 
+    proxy: false
+  securityContext:
+    runAsNonRoot: true
+    seccompProfile:
+      type: RuntimeDefault
+    # fsGroup: 65534
+    # runAsGroup: 65534
+    # runAsUser: 65534
+
+# Sets the image version for the Kubecost agent.
+imageVersion: lunar-sandwich.v0.1.2
+
+# Sets the destination where the Kubecost agent connects.
+cloudReportingServer: collector.app.kubecost.com:31357
 
 # Cloud Agent enables specific features designed to enhance the metrics exporter deployment
 # with enhancements designed for Kubecost Cloud 
 cloudAgent: true 
 cloudAgentKey: ""
+cloudAgentClusterId: my-cluster
 
 # Cloud Agent securely sends data using one-way TLS
 cloudAgentTLSCertName: "agent-tls-public-key"

@@ -223,9 +223,9 @@ global:
     runAsNonRoot: true
     seccompProfile:
       type: RuntimeDefault
-    fsGroup: 65534
-    runAsGroup: 65534
-    runAsUser: 65534
+    # fsGroup: 65534
+    # runAsGroup: 65534
+    # runAsUser: 65534
   containerSecurityContext:
     allowPrivilegeEscalation: false
     privileged: false
