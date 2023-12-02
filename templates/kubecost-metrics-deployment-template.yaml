@@ -43,12 +43,13 @@ spec:
       {{- if .Values.kubecostFrontend.tls.enabled }}
       securityContext:
         runAsUser: 0
-      {{- else }}
-      securityContext:
-        runAsUser: 1001
-        runAsGroup: 1001
-        fsGroup: 1001
       {{- end }}
+      {{- else if and .Values.global.platforms.openshift.enabled .Values.global.platforms.openshift.securityContext }}
+      securityContext:
+      {{- toYaml .Values.global.platforms.openshift.securityContext | nindent 8 }}
+      {{- else if .Values.global.securityContext }}
+      securityContext:
+        {{- toYaml .Values.global.securityContext | nindent 10 }}
       {{- else }}
       securityContext:
         runAsUser: 1001
@@ -131,8 +132,8 @@ spec:
           persistentVolumeClaim:
             claimName: {{ template "cost-analyzer.fullname" . }}
 {{- end }}
-      initContainers:
 {{- if .Values.supportNFS }}
+      initContainers:
         - name: config-db-perms-fix
         {{- if .Values.initChownDataImage }}
           image: {{ .Values.initChownDataImage }}
