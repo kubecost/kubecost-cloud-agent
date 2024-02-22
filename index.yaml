@@ -7,7 +7,7 @@ entries:
           url: https://www.kubecost.com
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2023-12-04T16:15:59.801723541-05:00"
+    created: "2024-02-22T17:52:31.444949691-05:00"
     dependencies:
     - condition: global.prometheus.enabled
       name: prometheus
@@ -15,7 +15,26 @@ entries:
       version: ~11.0.2
     description: A Helm chart that sets up the Kubecost Cloud agent with Prometheus
       to monitor Kubernetes costs.
-    digest: 610124ac089af1f6af9b931f119a648ab1d428aabb85af0cbdb1e0c0dce6824d
+    digest: c242235849ee228259a8b68e776245441cde22958444102e5b5ab3711cdebb2b
+    name: kubecost-cloud-agent
+    urls:
+    - tarballs/kubecost-cloud-agent-1.0.5.tgz
+    version: 1.0.5
+  - annotations:
+      artifacthub.io/links: |
+        - name: Homepage
+          url: https://www.kubecost.com
+    apiVersion: v2
+    appVersion: 1.0.0
+    created: "2024-02-22T17:52:31.44071109-05:00"
+    dependencies:
+    - condition: global.prometheus.enabled
+      name: prometheus
+      repository: file://./dependencies/prometheus
+      version: ~11.0.2
+    description: A Helm chart that sets up the Kubecost Cloud agent with Prometheus
+      to monitor Kubernetes costs.
+    digest: 8f60fc179a8d5626320c52c6fb1bd02c1b89e4261a846d46160430a40b0afc51
     name: kubecost-cloud-agent
     urls:
     - tarballs/kubecost-cloud-agent-1.0.4.tgz
@@ -26,7 +45,7 @@ entries:
           url: https://www.kubecost.com
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2023-12-04T16:15:59.787568443-05:00"
+    created: "2024-02-22T17:52:31.436527096-05:00"
     dependencies:
     - condition: global.prometheus.enabled
       name: prometheus
@@ -45,7 +64,7 @@ entries:
           url: https://www.kubecost.com
     apiVersion: v2
     appVersion: 0.1.0
-    created: "2023-12-04T16:15:59.776490952-05:00"
+    created: "2024-02-22T17:52:31.428604304-05:00"
     dependencies:
     - condition: global.prometheus.enabled
       name: prometheus
@@ -61,14 +80,14 @@ entries:
   prometheus:
   - apiVersion: v1
     appVersion: 2.17.2
-    created: "2023-12-04T16:15:59.763758761-05:00"
+    created: "2024-02-22T17:52:31.42090622-05:00"
     dependencies:
     - condition: kubeStateMetrics.enabled
       name: kube-state-metrics
       repository: https://kubernetes-charts.storage.googleapis.com/
       version: 2.7.*
     description: Prometheus is a monitoring system and time series database.
-    digest: 7e80e32660dd51632f10f2f4b0ebf85477a6d006251e6d5f66aa61f5edd17e25
+    digest: 5188591a67c7b27d5d600973c5842fd9510b3d253e3f82d5fecc487c6165c6f9
     home: https://prometheus.io/
     icon: https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png
     maintainers:
@@ -86,4 +105,4 @@ entries:
     urls:
     - charts/prometheus-11.0.2.tgz
     version: 11.0.2
-generated: "2023-12-04T16:15:59.760142863-05:00"
+generated: "2024-02-22T17:52:31.418190619-05:00"
