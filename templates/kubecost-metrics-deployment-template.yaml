@@ -226,7 +226,14 @@ spec:
                   key: prometheus-server-endpoint
             {{- if .Values.cloudAgent }}
             - name: CLOUD_AGENT_KEY
+            {{- if .Values.cloudAgentKeySecretName }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.cloudAgentKeySecretName }}
+                  key: CLOUD_AGENT_KEY
+            {{- else }}
               value: {{ .Values.cloudAgentKey }}
+            {{- end }}
             - name: CLOUD_REPORTING_SERVER
               value: {{ .Values.cloudReportingServer }}
             {{- end }}
