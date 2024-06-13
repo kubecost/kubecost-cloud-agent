@@ -95,6 +95,20 @@ Network Costs name used to tie autodiscovery of metrics to daemon set pods
 {{- printf "%s-%s" .Release.Name "network-costs" -}}
 {{- end -}}
 
+{{/*
+Create the networkcosts common labels. Note that because this is a daemonset, we don't want app.kubernetes.io/instance: to take the release name, which allows the scrape config to be static.
+*/}}
+{{- define "networkcosts.commonLabels" -}}
+app.kubernetes.io/instance: kubecost
+app.kubernetes.io/name: network-costs
+helm.sh/chart: {{ include "cost-analyzer.chart" . }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+app: {{ template "cost-analyzer.networkCostsName" . }}
+{{- end -}}
+{{- define "networkcosts.selectorLabels" -}}
+app: {{ template "cost-analyzer.networkCostsName" . }}
+{{- end }}
+
 {{- define "kubecost.clusterControllerName" -}}
 {{- printf "%s-%s" .Release.Name "cluster-controller" -}}
 {{- end -}}
@@ -241,9 +255,9 @@ Return the appropriate apiVersion for podsecuritypolicy.
 
 {{/*
 Recursive filter which accepts a map containing an input map (.v) and an output map (.r). The template
-will traverse all values inside .v recursively writing non-map values to the output .r. If a nested map 
-is discovered, we look for an 'enabled' key. If it doesn't exist, we continue traversing the 
-map. If it does exist, we omit the inner map traversal iff enabled is false. This filter writes the 
+will traverse all values inside .v recursively writing non-map values to the output .r. If a nested map
+is discovered, we look for an 'enabled' key. If it doesn't exist, we continue traversing the
+map. If it does exist, we omit the inner map traversal iff enabled is false. This filter writes the
 enabled only version to the output .r
 */}}
 {{- define "cost-analyzer.filter" -}}
@@ -281,8 +295,8 @@ The implied use case is {{ template "cost-analyzer.filterEnabled" .Values }}
 
 {{/*
 This template runs the full check for leader/follower requirements in order to determine
-whether it should be configured. This template will return true if it's enabled and all 
-requirements are met. 
+whether it should be configured. This template will return true if it's enabled and all
+requirements are met.
 */}}
 {{- define "cost-analyzer.leaderFollowerEnabled" }}
     {{- if .Values.kubecostDeployment }}
